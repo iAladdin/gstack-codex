@@ -4,6 +4,7 @@ set -euo pipefail
 
 SRC_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 TARGET_DIR="${1:-${CODEX_HOME:-$HOME/.codex}/skills/gstack-codex}"
+TARGET_PARENT_BASENAME="$(basename "$(dirname "$TARGET_DIR")")"
 
 if ! command -v rsync >/dev/null 2>&1; then
   echo "Error: rsync is required but not installed." >&2
@@ -16,6 +17,12 @@ if [ "$SRC_ROOT" = "$TARGET_DIR" ]; then
 fi
 
 mkdir -p "$TARGET_DIR"
+
+if [ "$TARGET_PARENT_BASENAME" != "skills" ]; then
+  echo "Warning: $TARGET_DIR is not under a parent directory named 'skills'." >&2
+  echo "The install copy will build successfully, but sibling skill registration will be skipped by setup." >&2
+  echo "Use ${CODEX_HOME:-$HOME/.codex}/skills/gstack-codex if you want the skills registered globally." >&2
+fi
 
 rsync -a --delete \
   --exclude '.git' \

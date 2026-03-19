@@ -74,6 +74,7 @@ mkdir -p "$HOME/.gstack-codex/projects"
 SKILLS_BASENAME="$(basename "$SKILLS_DIR")"
 if [ "$SKILLS_BASENAME" = "skills" ]; then
   linked=()
+  skipped=()
   for skill_dir in "$GSTACK_CODEX_DIR"/*/; do
     [ -f "$skill_dir/SKILL.md" ] || continue
     skill_name="$(basename "$skill_dir")"
@@ -82,6 +83,8 @@ if [ "$SKILLS_BASENAME" = "skills" ]; then
     if [ -L "$target" ] || [ ! -e "$target" ]; then
       ln -snf "$ROOT_NAME/$skill_name" "$target"
       linked+=("$skill_name")
+    else
+      skipped+=("$skill_name:$target")
     fi
   done
 
@@ -90,8 +93,18 @@ if [ "$SKILLS_BASENAME" = "skills" ]; then
   if [ ${#linked[@]} -gt 0 ]; then
     echo "  linked skills: ${linked[*]}"
   fi
+  if [ ${#skipped[@]} -gt 0 ]; then
+    echo "  warnings:"
+    for entry in "${skipped[@]}"; do
+      skill_name="${entry%%:*}"
+      target_path="${entry#*:}"
+      echo "    skipped $skill_name because $target_path already exists and is not a symlink"
+    done
+    echo "  Registration is partial. Remove or rename conflicting skill directories and rerun ./setup if you want these names registered."
+  fi
 else
   echo "gstack-codex ready."
   echo "  browse: $BROWSE_BIN"
-  echo "  (skipped skill symlinks — install under ~/.codex/skills/$ROOT_NAME to register sibling skills automatically)"
+  echo "  warning: skipped skill registration because this install is not under a parent directory named 'skills'"
+  echo "  To register sibling skills automatically, install under ~/.codex/skills/$ROOT_NAME"
 fi

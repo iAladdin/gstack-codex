@@ -11,6 +11,6 @@ description: Use the bundled Playwright-based persistent browser for interactive
 ## Rules
 
 - Prefer `browse` over `web.run` for local apps, auth walls, screenshots, or multi-step UI flows.
-- Before first use, find the binary with `./browse/bin/find-browse` and run `./setup` if missing.
+- Before first use from an arbitrary project directory, find the installed binary with `${CODEX_HOME:-$HOME/.codex}/skills/gstack-codex/browse/bin/find-browse` and rerun `${CODEX_HOME:-$HOME/.codex}/skills/gstack-codex/setup` if it is missing.
 - Start with `snapshot -i`, then interact using `@e` refs.
 - Include screenshot paths in your reply when visual evidence matters.

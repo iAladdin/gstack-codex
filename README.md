@@ -61,6 +61,8 @@ What `setup` does:
 - installs Playwright Chromium if needed
 - registers sibling skills into `~/.codex/skills/`
 
+If a skill name such as `browse`, `review`, `ship`, or `codex` already exists there as a real directory from another skill pack, `setup` now leaves it alone and prints a warning instead of silently pretending the full registration succeeded.
+
 ### Ask Codex To Install It For You
 
 Codex can use reusable skills installed under `~/.codex/skills/`, and this repository is structured to match that model.
@@ -103,11 +105,13 @@ That command:
 - excludes local build/runtime artifacts
 - runs `setup` inside the installed copy
 
-You can also target a custom install path:
+You can also target a custom path for a build-only copy:
 
 ```bash
 bin/sync-install /some/other/path/gstack-codex
 ```
+
+Important: if the target is not under a parent directory literally named `skills`, the copy will build, but `setup` will skip sibling skill registration. In other words, the custom path form is useful for mirroring or testing an install copy, not for full global registration.
 
 ## How To Invoke Skills In Codex
 

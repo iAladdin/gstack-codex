@@ -61,6 +61,8 @@ cd ~/.codex/skills/gstack-codex
 - 按需安装 Playwright Chromium
 - 把子技能注册到 `~/.codex/skills/`
 
+如果 `~/.codex/skills/` 下面已经有别的 skill pack 占用了 `browse`、`review`、`ship`、`codex` 这类名字，而且它们是普通目录不是软链，`setup` 会保留原状并打印 warning，不会再假装“完整注册成功”。
+
 ### 直接让 Codex 帮你安装
 
 Codex 可以使用安装在 `~/.codex/skills/` 下的可复用 skills，而这个仓库的结构就是按这个模型组织的。
@@ -103,11 +105,13 @@ bin/sync-install
 - 排除本地构建产物和运行时目录
 - 自动在安装副本里执行 `setup`
 
-也支持自定义目标目录：
+也支持同步到自定义路径，作为“构建用副本”：
 
 ```bash
 bin/sync-install /some/other/path/gstack-codex
 ```
+
+注意：如果目标路径的父目录名字不是字面意义上的 `skills`，那这一份副本虽然能构建成功，但 `setup` 会跳过子技能注册。也就是说，自定义路径更适合做镜像或测试，不适合作为完整的全局安装位置。
 
 ## 在 Codex 里怎么调用
 

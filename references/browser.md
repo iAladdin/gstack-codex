@@ -15,7 +15,8 @@ Prefer the bundled browser over `web.run` when you need:
 ## Locate The Binary
 
 ```bash
-B="$(./browse/bin/find-browse 2>/dev/null || true)"
+BROWSER_FIND="${CODEX_HOME:-$HOME/.codex}/skills/gstack-codex/browse/bin/find-browse"
+B="$("$BROWSER_FIND" 2>/dev/null || true)"
 ```
 
 If that returns nothing, look for:
@@ -23,7 +24,11 @@ If that returns nothing, look for:
 - workspace-local: `.codex/skills/gstack-codex/browse/dist/browse`
 - global: `${CODEX_HOME:-$HOME/.codex}/skills/gstack-codex/browse/dist/browse`
 
-If the binary is still missing, run `./setup`.
+If the binary is still missing, run:
+
+```bash
+${CODEX_HOME:-$HOME/.codex}/skills/gstack-codex/setup
+```
 
 ## High-Value Commands
 
