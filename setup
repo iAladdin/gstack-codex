@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+# gstack-codex setup — build browse binary + register sibling skills for Codex
+set -euo pipefail
+
+require_bun() {
+  if ! command -v bun >/dev/null 2>&1; then
+    echo "Error: bun is required but not installed." >&2
+    echo "Install Bun 1.x or newer: https://bun.sh/" >&2
+    exit 1
+  fi
+
+  local bun_major
+  bun_major="$(bun --version | cut -d. -f1)"
+  if ! [[ "$bun_major" =~ ^[0-9]+$ ]] || [ "$bun_major" -lt 1 ]; then
+    echo "Error: Bun 1.x or newer is required. Current version: $(bun --version)" >&2
+    exit 1
+  fi
+}
+
+ensure_playwright_browser() {
+  (
+    cd "$GSTACK_CODEX_DIR"
+    bun --eval 'import { chromium } from "playwright"; const browser = await chromium.launch(); await browser.close();'
+  ) >/dev/null 2>&1
+}
+
+require_bun
+
+GSTACK_CODEX_DIR="$(cd "$(dirname "$0")" && pwd)"
+ROOT_NAME="$(basename "$GSTACK_CODEX_DIR")"
+SKILLS_DIR="$(dirname "$GSTACK_CODEX_DIR")"
+BROWSE_BIN="$GSTACK_CODEX_DIR/browse/dist/browse"
+
+NEEDS_BUILD=0
+if [ ! -x "$BROWSE_BIN" ]; then
+  NEEDS_BUILD=1
+elif [ -n "$(find "$GSTACK_CODEX_DIR/browse/src" -type f -newer "$BROWSE_BIN" -print -quit 2>/dev/null)" ]; then
+  NEEDS_BUILD=1
+elif [ "$GSTACK_CODEX_DIR/package.json" -nt "$BROWSE_BIN" ]; then
+  NEEDS_BUILD=1
+elif [ -f "$GSTACK_CODEX_DIR/bun.lock" ] && [ "$GSTACK_CODEX_DIR/bun.lock" -nt "$BROWSE_BIN" ]; then
+  NEEDS_BUILD=1
+fi
+
+if [ "$NEEDS_BUILD" -eq 1 ]; then
+  echo "Building browse binary..."
+  (
+    cd "$GSTACK_CODEX_DIR"
+    bun install
+    bun run build
+  )
+fi
+
+if [ ! -x "$BROWSE_BIN" ]; then
+  echo "gstack-codex setup failed: browse binary missing at $BROWSE_BIN" >&2
+  exit 1
+fi
+
+if ! ensure_playwright_browser; then
+  echo "Installing Playwright Chromium..."
+  (
+    cd "$GSTACK_CODEX_DIR"
+    bunx playwright install chromium
+  )
+fi
+
+if ! ensure_playwright_browser; then
+  echo "gstack-codex setup failed: Playwright Chromium could not be launched" >&2
+  exit 1
+fi
+
+mkdir -p "$HOME/.gstack-codex/projects"
+
+SKILLS_BASENAME="$(basename "$SKILLS_DIR")"
+if [ "$SKILLS_BASENAME" = "skills" ]; then
+  linked=()
+  for skill_dir in "$GSTACK_CODEX_DIR"/*/; do
+    [ -f "$skill_dir/SKILL.md" ] || continue
+    skill_name="$(basename "$skill_dir")"
+    [ "$skill_name" = "node_modules" ] && continue
+    target="$SKILLS_DIR/$skill_name"
+    if [ -L "$target" ] || [ ! -e "$target" ]; then
+      ln -snf "$ROOT_NAME/$skill_name" "$target"
+      linked+=("$skill_name")
+    fi
+  done
+
+  echo "gstack-codex ready."
+  echo "  browse: $BROWSE_BIN"
+  if [ ${#linked[@]} -gt 0 ]; then
+    echo "  linked skills: ${linked[*]}"
+  fi
+else
+  echo "gstack-codex ready."
+  echo "  browse: $BROWSE_BIN"
+  echo "  (skipped skill symlinks — install under ~/.codex/skills/$ROOT_NAME to register sibling skills automatically)"
+fi

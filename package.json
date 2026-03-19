@@ -1,0 +1,24 @@
+{
+  "name": "gstack-codex",
+  "version": "0.1.0",
+  "description": "Codex-native adaptation of gstack: workflow skills plus a persistent Playwright browser for QA.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "browse": "./browse/dist/browse",
+    "find-browse": "./browse/dist/find-browse"
+  },
+  "scripts": {
+    "build": "bun build --compile browse/src/cli.ts --outfile browse/dist/browse && bun build --compile browse/src/find-browse.ts --outfile browse/dist/find-browse && (git rev-parse HEAD > browse/dist/.version || echo dev > browse/dist/.version)",
+    "dev": "bun run browse/src/cli.ts",
+    "server": "bun run browse/src/server.ts",
+    "test": "bun test browse/test/"
+  },
+  "dependencies": {
+    "diff": "^7.0.0",
+    "playwright": "^1.58.2"
+  },
+  "engines": {
+    "bun": ">=1.0.0"
+  }
+}

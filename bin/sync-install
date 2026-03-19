@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# Sync this working tree into the Codex skill install location, then rebuild/register.
+set -euo pipefail
+
+SRC_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+TARGET_DIR="${1:-${CODEX_HOME:-$HOME/.codex}/skills/gstack-codex}"
+
+if ! command -v rsync >/dev/null 2>&1; then
+  echo "Error: rsync is required but not installed." >&2
+  exit 1
+fi
+
+if [ "$SRC_ROOT" = "$TARGET_DIR" ]; then
+  echo "Source and target are the same path: $SRC_ROOT" >&2
+  exit 1
+fi
+
+mkdir -p "$TARGET_DIR"
+
+rsync -a --delete \
+  --exclude '.git' \
+  --exclude 'node_modules' \
+  --exclude '.gstack-codex' \
+  --exclude 'browse/dist' \
+  --exclude '.DS_Store' \
+  "$SRC_ROOT/" "$TARGET_DIR/"
+
+"$TARGET_DIR/setup"
+
+echo "Synced install:"
+echo "  source: $SRC_ROOT"
+echo "  target: $TARGET_DIR"
