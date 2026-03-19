@@ -49,7 +49,7 @@ Requirements:
 ### Install Globally
 
 ```bash
-git clone <your-repo-url> ~/.codex/skills/gstack-codex
+git clone https://github.com/iAladdin/gstack-codex.git ~/.codex/skills/gstack-codex
 cd ~/.codex/skills/gstack-codex
 ./setup
 ```
@@ -70,7 +70,7 @@ If you want Codex to do the install from a GitHub repository for you, paste some
 ```text
 Install gstack-codex for me from GitHub.
 
-1. Clone <your-repo-url> into ~/.codex/skills/gstack-codex
+1. Clone https://github.com/iAladdin/gstack-codex.git into ~/.codex/skills/gstack-codex
 2. Run ./setup inside that directory
 3. Verify that the sibling skills are linked under ~/.codex/skills/
 4. Confirm that browse is available
@@ -82,14 +82,12 @@ If you also want Codex to set up the current project to use the skill pack more 
 ```text
 Install gstack-codex for me from GitHub and configure this workspace to use it well.
 
-1. Clone <your-repo-url> into ~/.codex/skills/gstack-codex
+1. Clone https://github.com/iAladdin/gstack-codex.git into ~/.codex/skills/gstack-codex
 2. Run ./setup there
 3. Verify the installed skills and browse binary
 4. Inspect this repo and add or update AGENTS.md only if a short note would make skill usage clearer
 5. Tell me how I should invoke the main workflows in this project
 ```
-
-Replace `<your-repo-url>` with the actual GitHub repository URL.
 
 ### Keep A Working Repo Somewhere Else
 
@@ -191,29 +189,29 @@ The skills are meant to be used in that order:
 
 ## Skill Directory
 
-| Skill | Role | What It Does | Example Prompt |
-|------|------|--------------|----------------|
-| `gstack-codex` | Router | Chooses the right workflow when you are not sure where to start. | `Use gstack-codex to tell me whether this task needs office-hours, plan review, or QA.` |
-| `office-hours` | Product discovery partner | Reframes fuzzy ideas into real user pain, hidden jobs, and better wedges. | `Use office-hours to sharpen this idea: an AI daily briefing app for calendar and email.` |
-| `plan-ceo-review` | Founder / CEO | Challenges scope, ambition, sequencing, and what not to build. | `Use plan-ceo-review to cut this feature plan down to a smarter first version.` |
-| `plan-eng-review` | Engineering lead | Reviews architecture, interfaces, data flow, failure modes, and tests. | `Use plan-eng-review to audit this implementation plan, especially the data flow and test strategy.` |
-| `plan-design-review` | Design critic | Pressure-tests a UX/UI plan before implementation. | `Use plan-design-review to review this dashboard plan for hierarchy, clarity, and mobile behavior.` |
-| `design-consultation` | Design partner | Builds a concrete visual direction, system, and component rules. | `Use design-consultation to define a visual system for this AI writing app.` |
-| `review` | Staff engineer reviewer | Reviews code and diffs with findings-first output. | `Use review to inspect the current changes and give me findings first.` |
-| `investigate` | Debugger | Reproduces, narrows, and explains bugs before fixes. | `Use investigate to find the root cause of users being redirected back to login after sign-in.` |
-| `design-review` | Designer who ships | Audits an implemented UI and fixes the most important issues. | `Use design-review on http://localhost:3000/settings and fix the most obvious design problems.` |
-| `qa` | QA lead | Runs browser QA, fixes issues, and re-verifies. | `Use qa to test the signup and login flows on http://localhost:3000 and fix what breaks.` |
-| `qa-only` | QA reporter | Same depth of QA, but no code changes. | `Use qa-only to test the checkout flow on staging and give me only a bug report.` |
-| `ship` | Release engineer | Checks release readiness, tests, and shipping hygiene. | `Use ship to tell me whether this branch is ready to ship.` |
-| `document-release` | Technical writer | Updates docs so they match the shipped behavior. | `Use document-release to refresh the README and setup docs for the latest auth changes.` |
-| `retro` | Engineering manager | Summarizes what shipped, what hurt, and what to improve next. | `Use retro to summarize this sprint and call out test and process gaps.` |
-| `browse` | Persistent browser operator | Opens real pages, captures screenshots, drives auth flows, and inspects UI state. | `Use browse to open http://localhost:3000, list the interactive elements, and capture a screenshot.` |
-| `setup-browser-cookies` | Session manager | Imports login cookies from local Chromium-based browsers. | `Use setup-browser-cookies to import Chrome cookies for app.example.com into browse.` |
-| `codex` | Second-opinion reviewer | Runs an explicitly independent review or challenge workflow. | `Use codex for a second-opinion review of the current diff, focusing on edge cases.` |
-| `careful` | Safety mode | Adds blast-radius and rollback thinking around risky actions. | `Use careful for this production migration and confirm before any destructive command.` |
-| `freeze` | Scope lock | Restricts edits to one area. | `Use freeze and limit this task to apps/web/src/settings.` |
-| `guard` | Safety + scope lock | Combines `careful` and `freeze`. | `Use guard for this payments fix: only touch the payments module and confirm risky commands first.` |
-| `unfreeze` | Scope unlock | Removes the current edit restriction. | `Use unfreeze so broader changes are allowed again.` |
+| Skill                   | Role                        | What It Does                                                                      | Example Prompt                                                                                       |
+| ----------------------- | --------------------------- | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `gstack-codex`          | Router                      | Chooses the right workflow when you are not sure where to start.                  | `Use gstack-codex to tell me whether this task needs office-hours, plan review, or QA.`              |
+| `office-hours`          | Product discovery partner   | Reframes fuzzy ideas into real user pain, hidden jobs, and better wedges.         | `Use office-hours to sharpen this idea: an AI daily briefing app for calendar and email.`            |
+| `plan-ceo-review`       | Founder / CEO               | Challenges scope, ambition, sequencing, and what not to build.                    | `Use plan-ceo-review to cut this feature plan down to a smarter first version.`                      |
+| `plan-eng-review`       | Engineering lead            | Reviews architecture, interfaces, data flow, failure modes, and tests.            | `Use plan-eng-review to audit this implementation plan, especially the data flow and test strategy.` |
+| `plan-design-review`    | Design critic               | Pressure-tests a UX/UI plan before implementation.                                | `Use plan-design-review to review this dashboard plan for hierarchy, clarity, and mobile behavior.`  |
+| `design-consultation`   | Design partner              | Builds a concrete visual direction, system, and component rules.                  | `Use design-consultation to define a visual system for this AI writing app.`                         |
+| `review`                | Staff engineer reviewer     | Reviews code and diffs with findings-first output.                                | `Use review to inspect the current changes and give me findings first.`                              |
+| `investigate`           | Debugger                    | Reproduces, narrows, and explains bugs before fixes.                              | `Use investigate to find the root cause of users being redirected back to login after sign-in.`      |
+| `design-review`         | Designer who ships          | Audits an implemented UI and fixes the most important issues.                     | `Use design-review on http://localhost:3000/settings and fix the most obvious design problems.`      |
+| `qa`                    | QA lead                     | Runs browser QA, fixes issues, and re-verifies.                                   | `Use qa to test the signup and login flows on http://localhost:3000 and fix what breaks.`            |
+| `qa-only`               | QA reporter                 | Same depth of QA, but no code changes.                                            | `Use qa-only to test the checkout flow on staging and give me only a bug report.`                    |
+| `ship`                  | Release engineer            | Checks release readiness, tests, and shipping hygiene.                            | `Use ship to tell me whether this branch is ready to ship.`                                          |
+| `document-release`      | Technical writer            | Updates docs so they match the shipped behavior.                                  | `Use document-release to refresh the README and setup docs for the latest auth changes.`             |
+| `retro`                 | Engineering manager         | Summarizes what shipped, what hurt, and what to improve next.                     | `Use retro to summarize this sprint and call out test and process gaps.`                             |
+| `browse`                | Persistent browser operator | Opens real pages, captures screenshots, drives auth flows, and inspects UI state. | `Use browse to open http://localhost:3000, list the interactive elements, and capture a screenshot.` |
+| `setup-browser-cookies` | Session manager             | Imports login cookies from local Chromium-based browsers.                         | `Use setup-browser-cookies to import Chrome cookies for app.example.com into browse.`                |
+| `codex`                 | Second-opinion reviewer     | Runs an explicitly independent review or challenge workflow.                      | `Use codex for a second-opinion review of the current diff, focusing on edge cases.`                 |
+| `careful`               | Safety mode                 | Adds blast-radius and rollback thinking around risky actions.                     | `Use careful for this production migration and confirm before any destructive command.`              |
+| `freeze`                | Scope lock                  | Restricts edits to one area.                                                      | `Use freeze and limit this task to apps/web/src/settings.`                                           |
+| `guard`                 | Safety + scope lock         | Combines `careful` and `freeze`.                                                  | `Use guard for this payments fix: only touch the payments module and confirm risky commands first.`  |
+| `unfreeze`              | Scope unlock                | Removes the current edit restriction.                                             | `Use unfreeze so broader changes are allowed again.`                                                 |
 
 ## The Browser Layer
 
@@ -251,14 +249,14 @@ Use setup-browser-cookies to import Chrome cookies for staging.example.com.
 
 ## Repository Layout
 
-| Path | Purpose |
-|------|---------|
-| `SKILL.md` | Router skill for the whole pack |
-| `references/` | Shared principles and playbooks |
-| `<skill>/SKILL.md` | One skill per workflow |
-| `browse/` | Persistent Playwright browser implementation |
-| `bin/` | Setup, sync, and helper scripts |
-| `BROWSER.md` | Browser command reference and implementation notes |
+| Path               | Purpose                                            |
+| ------------------ | -------------------------------------------------- |
+| `SKILL.md`         | Router skill for the whole pack                    |
+| `references/`      | Shared principles and playbooks                    |
+| `<skill>/SKILL.md` | One skill per workflow                             |
+| `browse/`          | Persistent Playwright browser implementation       |
+| `bin/`             | Setup, sync, and helper scripts                    |
+| `BROWSER.md`       | Browser command reference and implementation notes |
 
 ## Development
 
