@@ -2,7 +2,7 @@
 
 [中文说明](README.zh-CN.md)
 
-`gstack-codex` is a Codex-native software factory inspired by the workflow design of `gstack`, but adapted to how Codex actually works: trigger-based skills, local tooling, subagents when explicitly requested, `web.run` for current research, and a persistent Playwright browser for real UI QA.
+`gstack-codex` is a Codex-native software factory inspired by the workflow design of [gstack](https://github.com/garrytan/gstack), but adapted to how Codex actually works: trigger-based skills, local tooling, subagents when explicitly requested, `web.run` for current research, and a persistent Playwright browser for real UI QA.
 
 It gives you two things:
 

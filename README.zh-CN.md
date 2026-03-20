@@ -2,7 +2,7 @@
 
 [English README](README.md)
 
-`gstack-codex` 是一个面向 Codex 的软件工厂，灵感来自 `gstack` 的 workflow 设计，但实现方式完全贴合 Codex：用 trigger-based skills 代替 Claude slash commands，用 `web.run` 做实时资料查询，用本地工具做仓库操作，用持久化 Playwright 浏览器做真实 UI QA。
+`gstack-codex` 是一个面向 Codex 的软件工厂，灵感来自 [gstack](https://github.com/garrytan/gstack) 的 workflow 设计，但实现方式完全贴合 Codex：用 trigger-based skills 代替 Claude slash commands，用 `web.run` 做实时资料查询，用本地工具做仓库操作，用持久化 Playwright 浏览器做真实 UI QA。
 
 它提供两层能力：
 
